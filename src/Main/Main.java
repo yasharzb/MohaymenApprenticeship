@@ -9,5 +9,4 @@ public class Main {
         Controller controller = Controller.getInstance();
         controller.main();
     }
-
 }

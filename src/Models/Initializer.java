@@ -2,11 +2,12 @@ package Models;
 
 import org.w3c.dom.NodeList;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Initializer {
@@ -30,8 +31,33 @@ public class Initializer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        RSS rss = new RSS(getURLContent(inputStream));
+        rss = new RSS(getURLContent(inputStream));
         rss.extractNews();
+        save();
+    }
+
+    public void save() {
+        try {
+            Path jsonFile = Paths.get("./src/Data/rss.json");
+            try {
+                Files.createFile(jsonFile);
+            } catch (Exception ignored) {
+            }
+            FileWriter jsonWriter = new FileWriter("./src/Data/rss.json");
+            jsonWriter.write(rss.toJson());
+            jsonWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void intializeNews() {
+        File dataDir = new File("./src/Data");
+        try {
+            rss = RSS.fromJson(new BufferedReader(new FileReader("./src/Data/rss.json")).readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getURLContent(InputStream in) {

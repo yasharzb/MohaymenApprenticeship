@@ -1,5 +1,7 @@
 package Models;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,5 +54,13 @@ public class RSS {
             id++;
             i = content.indexOf("<item>", i + 1);
         }
+    }
+
+    public static RSS fromJson(String json) {
+        return new Gson().fromJson(json, RSS.class);
+    }
+
+    public String toJson() {
+        return new Gson().toJson(this);
     }
 }

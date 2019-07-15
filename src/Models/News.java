@@ -16,6 +16,7 @@ public class News {
     private String content;
     private String detailedURL;
     private String source;
+    private int views;
 
     public News(String source, int id) {
         this.id = id;
@@ -54,7 +55,7 @@ public class News {
         return new Gson().toJson(this);
     }
 
-    private static News fromJson(String json) {
+    public static News fromJson(String json) {
         return new Gson().fromJson(json, News.class);
     }
 
@@ -68,6 +69,15 @@ public class News {
 
     @Override
     public String toString() {
-        return "Id: " + this.id + "\nTitle: " + this.title + "\nDescription:" + this.discription;
+        return "Id: " + this.id + " \nViews: " + this.views + "\nTitle: " + this.title +
+                "\nDescription:" + this.discription;
+    }
+
+    public void incrementView() {
+        this.views++;
+    }
+
+    public int getId() {
+        return id;
     }
 }
