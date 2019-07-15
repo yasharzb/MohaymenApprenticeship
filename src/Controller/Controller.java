@@ -20,7 +20,7 @@ public class Controller {
 
     public void main() {
         System.out.println("Initializing started!");
-        initializer.intializeNews();
+        initializer.initializeRSS();
         System.out.println("Initializing done!");
         Scanner scanner = new Scanner(System.in);
         String command;
@@ -36,9 +36,13 @@ public class Controller {
     private String findNews(String input) {
         int id = Integer.parseInt(input.split(" ")[1]);
         try {
-            News news = RSS.findNewsById(id, initializer.getRss());
-            news.incrementView();
-            return news.toString();
+            synchronized (initializer.getRss()) {
+                initializer.initializeRSS();
+                News news = RSS.findNewsById(id, initializer.getRss());
+                news.incrementView();
+                initializer.save();
+                return news.toString();
+            }
         } catch (Exception e) {
             return "News not found!";
         }

@@ -51,8 +51,7 @@ public class Initializer {
         }
     }
 
-    public void intializeNews() {
-        File dataDir = new File("./src/Data");
+    public void initializeRSS() {
         try {
             rss = RSS.fromJson(new BufferedReader(new FileReader("./src/Data/rss.json")).readLine());
         } catch (IOException e) {

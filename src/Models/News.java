@@ -2,7 +2,6 @@ package Models;
 
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,7 +11,7 @@ import java.nio.file.Paths;
 public class News {
     private String title;
     private int id;
-    private String discription;
+    private String description;
     private String content;
     private String detailedURL;
     private String source;
@@ -22,7 +21,7 @@ public class News {
         this.id = id;
         this.source = source;
         title = findTitle(source);
-        discription = findDescription(source);
+        description = findDescription(source);
         try {
             Path jsonFile = Paths.get("./src/Data/" + id + ".json");
             Path xmlFile = Paths.get("./src/Data/" + id + ".xml");
@@ -70,7 +69,7 @@ public class News {
     @Override
     public String toString() {
         return "Id: " + this.id + " \nViews: " + this.views + "\nTitle: " + this.title +
-                "\nDescription:" + this.discription;
+                "\nDescription:" + this.description;
     }
 
     public void incrementView() {
