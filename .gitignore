@@ -96,3 +96,6 @@ fabric.properties
 
 /src/Data/
 /.idea/libraries/
+
+#Exclude these
+!/src/Data/rss.json
