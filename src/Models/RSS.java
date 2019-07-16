@@ -2,6 +2,10 @@ package Models;
 
 import com.google.gson.Gson;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,6 +14,10 @@ public class RSS {
     private String name;
     private String content;
     private HashMap<Integer, News> items = new HashMap<>();
+
+    public RSS() {
+
+    }
 
     public RSS(String content) {
         this.content = content;
@@ -45,12 +53,23 @@ public class RSS {
         return items;
     }
 
-    protected void extractNews() {
+    protected void extractNews(PreparedStatement statement) {
         int id = 1, i = 0;
         for (i = content.indexOf("<item>", i); i < content.lastIndexOf("<item>"); ) {
             String item = content.substring(content.indexOf("<item>", i) + "<item>".length()
                     , content.indexOf("</item>", content.indexOf("<item>", i)));
-            items.put(Constants.INIT_ID + id, new News(item, Constants.INIT_ID + id));
+            News news = new News(item, Constants.INIT_ID + id);
+            try {
+                System.out.println(news.getTitle());
+                statement.setInt(1, news.getId());
+                statement.setString(2, news.getTitle());
+                statement.setString(3, news.getDescription());
+                statement.setInt(4, news.getViews());
+                statement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            items.put(Constants.INIT_ID + id, news);
             id++;
             i = content.indexOf("<item>", i + 1);
         }

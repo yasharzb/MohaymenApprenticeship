@@ -41,6 +41,13 @@ public class News {
         }
     }
 
+    public News(int id, String title, String description, int views) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.views = views;
+    }
+
     private String findTitle(String source) {
         return source.substring(source.indexOf("<title>") + "<title>".length(), source.indexOf("</title>"));
     }
@@ -78,5 +85,17 @@ public class News {
 
     public int getId() {
         return id;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
