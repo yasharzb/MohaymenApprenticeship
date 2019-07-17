@@ -1,15 +1,14 @@
 package Models;
 
-import com.google.gson.Gson;
-
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 
 public class RSS {
     private String url;
     private String content;
-    private HashMap<Integer, News> items = new HashMap<>();
 
     public RSS() {
 
@@ -19,10 +18,25 @@ public class RSS {
         this.content = content;
     }
 
-    public static News findNewsById(int id, RSS rss) {
-        if (rss.items.containsKey(id))
-            return rss.items.get(id);
-        return null;
+    public News findNewsById(int id, Statement statement) {
+        ResultSet rssResult;
+        News news = null;
+        try {
+            rssResult = statement.executeQuery("select * from rss.newsIndex where Id = " + id + ";");
+            while (rssResult.next()) {
+                news = new News(rssResult.getInt(1), rssResult.getString(2),
+                        rssResult.getString(3));
+                Statement viewStatement = statement.getConnection().createStatement();
+                ResultSet viewResult = viewStatement.executeQuery("select * from rss.newsView where Id =" +
+                        news.getId() + ";");
+                while (viewResult.next())
+                    news.setViews(viewResult.getInt(2));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return news;
     }
 
     public String getUrl() {
@@ -31,10 +45,6 @@ public class RSS {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public HashMap<Integer, News> getItems() {
-        return items;
     }
 
     protected void extractNews(PreparedStatement content, PreparedStatement view) {
@@ -54,7 +64,6 @@ public class RSS {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            items.put(Constants.INIT_ID + id, news);
             id++;
             i = this.content.indexOf("<item>", i + 1);
         }

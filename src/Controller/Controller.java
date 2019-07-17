@@ -30,9 +30,6 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Initializing started!");
-        initializer.initializeRSS(statement);
-        System.out.println("Initializing done!");
         Scanner scanner = new Scanner(System.in);
         String command;
         while (!(command = scanner.nextLine()).equals("exit")) {
@@ -48,8 +45,7 @@ public class Controller {
         int id = Integer.parseInt(input.split(" ")[1]);
         try {
             synchronized (initializer.getRss()) {
-                initializer.initializeRSS(statement);
-                News news = RSS.findNewsById(id, initializer.getRss());
+                News news = initializer.getRss().findNewsById(id, statement);
                 initializer.incrementNewsView(statement, news);
                 return news.toString();
             }

@@ -5,11 +5,7 @@ import org.w3c.dom.NodeList;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Initializer {
     private static final String SOURCE = "https://www.digitaltrends.com/feed/";
@@ -40,26 +36,6 @@ public class Initializer {
                     "newsView values (?,?);");
             rss.extractNews(contentStatement, viewStatement);
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void initializeRSS(Statement statement) {
-        try {
-            ResultSet rssResult = statement.executeQuery("select * from rss.newsIndex;");
-            rss = new RSS();
-            while (rssResult.next()) {
-                News news = new News(rssResult.getInt(1), rssResult.getString(2),
-                        rssResult.getString(3));
-                Statement viewStatement = statement.getConnection().createStatement();
-                ResultSet viewResult = viewStatement.executeQuery("select * from rss.newsView where Id =" +
-                        news.getId() + ";");
-                while (viewResult.next())
-                    news.setViews(viewResult.getInt(2));
-                rss.getItems().put(news.getId(), news);
-
-            }
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }

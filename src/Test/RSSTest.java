@@ -1,14 +1,18 @@
 package Test;
 
+import Models.News;
+import Models.RSS;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class RSSTest {
-    @Before
-    public void initiation(){
+    private RSS rss = new RSS();
 
+    @Before
+    public void initiation() {
+        News news = new News();
     }
 
 
