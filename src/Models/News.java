@@ -17,11 +17,19 @@ public class News {
     private String source;
     private int views;
 
+    public News() {
+
+    }
+
     public News(String source, int id) {
         this.id = id;
         this.source = source;
         title = findTitle(source);
         description = findDescription(source);
+        exportNews();
+    }
+
+    private void exportNews() {
         try {
             Path jsonFile = Paths.get("./src/Data/" + id + ".json");
             Path xmlFile = Paths.get("./src/Data/" + id + ".xml");
@@ -101,4 +109,5 @@ public class News {
     public void setViews(int views) {
         this.views = views;
     }
+
 }

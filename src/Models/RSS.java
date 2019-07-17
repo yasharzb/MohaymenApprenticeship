@@ -3,15 +3,11 @@ package Models;
 import com.google.gson.Gson;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RSS {
     private String url;
-    private String name;
     private String content;
     private HashMap<Integer, News> items = new HashMap<>();
 
@@ -35,18 +31,6 @@ public class RSS {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContent() {
-        return content;
     }
 
     public HashMap<Integer, News> getItems() {
