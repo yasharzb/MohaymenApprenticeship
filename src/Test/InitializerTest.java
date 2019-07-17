@@ -11,7 +11,6 @@ public class InitializerTest {
 
     }
 
-
     @Test
     public void main() {
     }

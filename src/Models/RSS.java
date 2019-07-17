@@ -59,12 +59,4 @@ public class RSS {
             i = this.content.indexOf("<item>", i + 1);
         }
     }
-
-    public static RSS fromJson(String json) {
-        return new Gson().fromJson(json, RSS.class);
-    }
-
-    public String toJson() {
-        return new Gson().toJson(this);
-    }
 }

@@ -13,15 +13,6 @@ public class NewsTest {
     }
 
     @Test
-    public void fromJson() {
-    }
-
-    @Test
     public void incrementView() {
-    }
-
-    @Test
-    public void toJson(){
-
     }
 }

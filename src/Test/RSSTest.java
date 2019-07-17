@@ -19,12 +19,4 @@ public class RSSTest {
     @Test
     public void extractNews() {
     }
-
-    @Test
-    public void fromJson() {
-    }
-
-    @Test
-    public void toJson() {
-    }
 }

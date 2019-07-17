@@ -42,27 +42,10 @@ public class Initializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        save();
-    }
-
-    public void save() {
-        try {
-            Path jsonFile = Paths.get("./src/Data/rss.json");
-            try {
-                Files.createFile(jsonFile);
-            } catch (Exception ignored) {
-            }
-            FileWriter jsonWriter = new FileWriter("./src/Data/rss.json");
-            jsonWriter.write(rss.toJson());
-            jsonWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void initializeRSS(Statement statement) {
         try {
-            //rss = RSS.fromJson(new BufferedReader(new FileReader("./src/Data/rss.json")).readLine());
             ResultSet rssResult = statement.executeQuery("select * from rss.newsIndex;");
             rss = new RSS();
             while (rssResult.next()) {
