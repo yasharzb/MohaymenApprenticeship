@@ -76,8 +76,7 @@ public class News {
                 Objects.equals(source, news.source);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, id, description, source, views);
+    public void setId(int id) {
+        this.id = id;
     }
 }

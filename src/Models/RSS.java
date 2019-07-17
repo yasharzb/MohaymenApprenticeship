@@ -45,7 +45,7 @@ public class RSS {
         this.url = url;
     }
 
-    protected void extractNews(PreparedStatement content, PreparedStatement view) {
+    public void extractNews(PreparedStatement content, PreparedStatement view) {
         int id = 1, i = 0;
         for (i = this.content.indexOf("<item>", i); i < this.content.lastIndexOf("<item>"); ) {
             String item = this.content.substring(this.content.indexOf("<item>", i) + "<item>".length()
