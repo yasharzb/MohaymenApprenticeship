@@ -1,5 +1,7 @@
 package Models;
 
+import java.util.Objects;
+
 public class News {
     private String title;
     private int id;
@@ -33,10 +35,6 @@ public class News {
                 , source.indexOf("]]></description>"));
     }
 
-    private String toXML() {
-        return "<item>\n" + source + "\n</item>";
-    }
-
     @Override
     public String toString() {
         return "Id: " + this.id + " \nViews: " + this.views + "\nTitle: " + this.title +
@@ -67,6 +65,20 @@ public class News {
         this.views = views;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        News news = (News) o;
+        return id == news.id &&
+                views == news.views &&
+                Objects.equals(title, news.title) &&
+                Objects.equals(description, news.description) &&
+                Objects.equals(source, news.source);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, id, description, source, views);
+    }
 }
