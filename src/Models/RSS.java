@@ -53,25 +53,26 @@ public class RSS {
         return items;
     }
 
-    protected void extractNews(PreparedStatement statement) {
+    protected void extractNews(PreparedStatement content, PreparedStatement view) {
         int id = 1, i = 0;
-        for (i = content.indexOf("<item>", i); i < content.lastIndexOf("<item>"); ) {
-            String item = content.substring(content.indexOf("<item>", i) + "<item>".length()
-                    , content.indexOf("</item>", content.indexOf("<item>", i)));
+        for (i = this.content.indexOf("<item>", i); i < this.content.lastIndexOf("<item>"); ) {
+            String item = this.content.substring(this.content.indexOf("<item>", i) + "<item>".length()
+                    , this.content.indexOf("</item>", this.content.indexOf("<item>", i)));
             News news = new News(item, Constants.INIT_ID + id);
             try {
-                System.out.println(news.getTitle());
-                statement.setInt(1, news.getId());
-                statement.setString(2, news.getTitle());
-                statement.setString(3, news.getDescription());
-                statement.setInt(4, news.getViews());
-                statement.execute();
+                content.setInt(1, news.getId());
+                content.setString(2, news.getTitle());
+                content.setString(3, news.getDescription());
+                view.setInt(1, news.getId());
+                view.setInt(2, 0);
+                content.execute();
+                view.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             items.put(Constants.INIT_ID + id, news);
             id++;
-            i = content.indexOf("<item>", i + 1);
+            i = this.content.indexOf("<item>", i + 1);
         }
     }
 

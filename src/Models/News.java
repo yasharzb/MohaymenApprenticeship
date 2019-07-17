@@ -41,11 +41,10 @@ public class News {
         }
     }
 
-    public News(int id, String title, String description, int views) {
+    public News(int id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.views = views;
     }
 
     private String findTitle(String source) {
@@ -97,5 +96,9 @@ public class News {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 }

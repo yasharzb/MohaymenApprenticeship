@@ -34,9 +34,11 @@ public class Initializer {
         }
         rss = new RSS(getURLContent(inputStream));
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into rss." +
-                    "newsIndes values (?,?,?,?);");
-            rss.extractNews(preparedStatement);
+            PreparedStatement contentStatement = connection.prepareStatement("insert into rss." +
+                    "newsIndex values (?,?,?);");
+            PreparedStatement viewStatement = connection.prepareStatement("insert into rss." +
+                    "newsView values (?,?);");
+            rss.extractNews(contentStatement, viewStatement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,12 +63,18 @@ public class Initializer {
     public void initializeRSS(Statement statement) {
         try {
             //rss = RSS.fromJson(new BufferedReader(new FileReader("./src/Data/rss.json")).readLine());
-            ResultSet resultSet = statement.executeQuery("select * from rss.newsIndes;");
+            ResultSet rssResult = statement.executeQuery("select * from rss.newsIndex;");
             rss = new RSS();
-            while (resultSet.next()) {
-                News news = new News(resultSet.getInt(1), resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getInt(4));
+            while (rssResult.next()) {
+                News news = new News(rssResult.getInt(1), rssResult.getString(2),
+                        rssResult.getString(3));
+                Statement viewStatement = statement.getConnection().createStatement();
+                ResultSet viewResult = viewStatement.executeQuery("select * from rss.newsView where Id =" +
+                        news.getId() + ";");
+                while (viewResult.next())
+                    news.setViews(viewResult.getInt(2));
                 rss.getItems().put(news.getId(), news);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,7 +102,7 @@ public class Initializer {
     public void incrementNewsView(Statement statement, News news) {
         news.incrementView();
         try {
-            statement.executeUpdate("update rss.newsIndes set View = " + news.getViews() +
+            statement.executeUpdate("update rss.newsView set View = " + news.getViews() +
                     " WHERE Id = " + news.getId() + ";");
         } catch (SQLException e) {
             e.printStackTrace();
