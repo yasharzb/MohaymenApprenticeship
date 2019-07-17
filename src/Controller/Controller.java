@@ -1,5 +1,6 @@
 package Controller;
 
+import Models.Constants;
 import Models.Initializer;
 import Models.News;
 
@@ -29,17 +30,18 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        initializer.main(connection);
         Scanner scanner = new Scanner(System.in);
         String command;
         while (!(command = scanner.nextLine()).equals("exit")) {
             if (command.matches("get\\s[0-9]*"))
                 System.out.println(findNews(command));
             else
-                System.out.println("Invalid command");
+                System.out.println(Constants.INVALID_COMMAND);
         }
     }
 
-    private String findNews(String input) {
+    public String findNews(String input) {
         int id = Integer.parseInt(input.split(" ")[1]);
         try {
             synchronized (initializer.getRss()) {
@@ -48,7 +50,15 @@ public class Controller {
                 return news.toString();
             }
         } catch (Exception e) {
-            return "News not found!";
+            return Constants.NOT_FOUND;
         }
+    }
+
+    public void setStatement(Statement statement) {
+        this.statement = statement;
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }
