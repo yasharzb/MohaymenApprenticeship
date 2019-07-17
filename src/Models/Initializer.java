@@ -28,6 +28,12 @@ public class Initializer {
         }
         rss = new RSS(getURLContent(inputStream));
         try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("drop table newsView;");
+            statement.executeUpdate("create table newsView (Id int, View int, primary key (Id));");
+            statement.executeUpdate("drop table newsIndex;");
+            statement.executeUpdate("create table newsIndex" + "(Id int, Title TINYTEXT, " +
+                    "Description LONGTEXT, primary key (Id));");
             PreparedStatement contentStatement = connection.prepareStatement("insert into rss." +
                     "newsIndex values (?,?,?);");
             PreparedStatement viewStatement = connection.prepareStatement("insert into rss." +
@@ -64,5 +70,9 @@ public class Initializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
     }
 }
