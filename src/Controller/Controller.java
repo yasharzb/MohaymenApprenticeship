@@ -2,7 +2,6 @@ package Controller;
 
 import Models.Initializer;
 import Models.News;
-import Models.RSS;
 
 import java.sql.*;
 import java.util.Scanner;
@@ -38,7 +37,6 @@ public class Controller {
             else
                 System.out.println("Invalid command");
         }
-//        initializer.save();
     }
 
     private String findNews(String input) {

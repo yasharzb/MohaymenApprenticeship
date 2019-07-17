@@ -1,7 +1,5 @@
 package Models;
 
-import org.w3c.dom.NodeList;
-
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +9,7 @@ public class Initializer {
     private static final String SOURCE = "https://www.digitaltrends.com/feed/";
     private static final Initializer INITIALIZER = new Initializer();
     private InputStream inputStream = null;
-    private RSS rss;
+    private RSS rss = new RSS();
 
 
     private Initializer() {
