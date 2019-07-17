@@ -71,7 +71,6 @@ public class News {
         if (o == null || getClass() != o.getClass()) return false;
         News news = (News) o;
         return id == news.id &&
-                views == news.views &&
                 Objects.equals(title, news.title) &&
                 Objects.equals(description, news.description) &&
                 Objects.equals(source, news.source);

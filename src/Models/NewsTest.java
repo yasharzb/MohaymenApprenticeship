@@ -1,14 +1,14 @@
-package Test;
+package Models;
 
-import Models.News;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.testng.annotations.BeforeTest;
 
 public class NewsTest {
     private News news;
 
-    @BeforeMethod
+    @BeforeTest
     public void initiation() {
         news = new News();
     }
@@ -21,6 +21,4 @@ public class NewsTest {
         final int actual = news.getViews();
         Assert.assertEquals(actual, expected);
     }
-
-
 }

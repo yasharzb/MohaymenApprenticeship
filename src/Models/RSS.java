@@ -30,7 +30,6 @@ public class RSS {
                         news.getId() + ";");
                 while (viewResult.next())
                     news.setViews(viewResult.getInt(2));
-
             }
         } catch (SQLException e) {
             e.printStackTrace();

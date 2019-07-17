@@ -1,26 +1,22 @@
 package Test;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class InitializerTest {
-    @Before
-    public void initiation(){
+    @BeforeMethod
+    public void initiation() {
 
     }
 
     @Test
     public void main() {
-    }
-
-    @Test
-    public void save() {
-    }
-
-    @Test
-    public void initializeRSS() {
     }
 
     @Test
