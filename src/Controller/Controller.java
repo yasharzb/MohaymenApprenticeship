@@ -21,16 +21,17 @@ public class Controller {
         return CONTROLLER;
     }
 
-    public void main() {
+    public void main(String userName, String password) {
         try {
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/rss", "root"
-                    , "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/rss", userName, password);
             statement = connection.createStatement();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Invalid userName or password");
         }
-        initializer.main(connection);
+//        initializer.main(connection);
+    }
+
+    public void handleEvents() {
         Scanner scanner = new Scanner(System.in);
         String command;
         while (!(command = scanner.nextLine()).equals("exit")) {
