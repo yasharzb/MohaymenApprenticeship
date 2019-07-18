@@ -21,12 +21,13 @@ public class Controller {
         return CONTROLLER;
     }
 
-    public void main(String userName, String password) {
+    public void main(String userName, String password) throws SQLException {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/rss", userName, password);
             statement = connection.createStatement();
         } catch (SQLException e) {
             System.err.println("Invalid userName or password");
+            throw new SQLException("Invalid userName or password");
         }
 //        initializer.main(connection);
     }
