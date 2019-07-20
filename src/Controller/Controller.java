@@ -52,7 +52,7 @@ public class Controller {
                 return news.toString();
             }
         } catch (Exception e) {
-            return Constants.NOT_FOUND;
+            throw e;
         }
     }
 

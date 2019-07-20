@@ -29,7 +29,6 @@ public class RSSTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        news = new News();
     }
 
 

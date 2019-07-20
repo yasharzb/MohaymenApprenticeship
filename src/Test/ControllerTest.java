@@ -3,12 +3,17 @@ package Test;
 import Controller.Controller;
 import Models.Constants;
 import Models.Initializer;
+import Models.News;
+import Models.RSS;
+import org.mockito.Mock;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+
+import static org.mockito.Mockito.*;
+
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,11 +26,18 @@ public class ControllerTest {
     private Initializer initializer;
     private Connection connection;
     private Statement statement;
+    private News news;
+    private RSS rss;
 
     @BeforeMethod
     public void initiation() {
+        rss = mock(RSS.class);
         controller = Controller.getInstance();
-        initializer = Initializer.getInstance();
+        news = new News(6000, "Holy", "kapak");
+        news.setViews(0);
+        initializer = mock(Initializer.class);
+        when(initializer.getRss()).thenReturn(rss);
+        when(rss.findNewsById(anyInt(), any(Statement.class))).thenReturn(news);
         try {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/rss", "root"
@@ -36,7 +48,6 @@ public class ControllerTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        initializer.main(connection);
     }
 
 
@@ -84,14 +95,12 @@ public class ControllerTest {
         }
     }
 
-    @Test
+    @Test(expectedExceptions = Exception.class)
     public void findNews() {
-        int randomId = 1 + Constants.INIT_ID;
-        final String actualTrue = controller.findNews("get " + (randomId));
-        System.out.println(actualTrue);
-        Assert.assertNotEquals(Constants.NOT_FOUND, actualTrue);
-        randomId = 2 * Constants.INIT_ID;
-        final String actualFalse = controller.findNews("get " + (randomId));
-        Assert.assertEquals(Constants.NOT_FOUND, actualFalse);
+        String expected = news.toString();
+        String actual = controller.findNews("get 6000");
+        Assert.assertEquals(actual, expected);
+        controller.findNews("get6000");
+        controller.findNews("get news");
     }
 }
