@@ -1,7 +1,10 @@
 package Test;
 
 import Models.News;
-import org.testng.Assert;
+
+import static org.testng.Assert.*;
+import static org.mockito.Mockito.*;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -10,16 +13,16 @@ public class NewsTest {
 
     @BeforeMethod
     public void initiation() {
-        news = new News();
+        news = mock(News.class);
     }
 
     @Test
     public void incrementView() {
         final int expected = news.getViews() + 1;
-        System.out.println(expected);
-        news.incrementView();
-        final int actual = news.getViews();
-        Assert.assertEquals(actual, expected);
+        doAnswer(invocationOnMock -> {
+            assertEquals(news.getViews(), expected);
+            return null;
+        }).when(news).incrementView();
     }
 
 
